@@ -1,22 +1,39 @@
-import { View, Text, Button } from "react-native"
+import { View, Text, FlatList, StyleSheet } from "react-native"
 import { useEffect } from "react";
+import { NativeStackHeaderProps } from "@react-navigation/native-stack";
+import data from "../data.json";
+import { Workout } from "../types/data";
+import WorkoutItem from "../components/WorkoutItem";
 
-export default function HomeScreen({navigation}: any) {
+export default function HomeScreen({ navigation }: NativeStackHeaderProps) {
 
     useEffect(() => {
         console.log("Rending Home Screen");
-    
+
         return () => console.log("Unmounting Home Screen")
-      }, [])
+    }, [])
 
 
     return (
-        <View>
-            <Text>HomeScreen</Text>
-            <Button
-                title="Go to Planner"
-                onPress={() => navigation.navigate("Planner")}
+        <View style={styles.container}>
+            <Text style={styles.header}>New Workouts</Text>
+            <FlatList
+                data={data as Workout[]}
+                renderItem={WorkoutItem}
+                keyExtractor={item => item.slug}
             />
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 20,
+        flex: 1,
+    },
+    header: {
+        fontSize: 20,
+        marginBottom: 20,
+        fontWeight: "bold"
+    }
+})
