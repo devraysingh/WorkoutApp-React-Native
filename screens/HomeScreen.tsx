@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet } from "react-native"
+import { View, Text, FlatList, StyleSheet, Pressable } from "react-native"
 import { useEffect } from "react";
 import { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import data from "../data.json";
@@ -17,12 +17,19 @@ export default function HomeScreen({ navigation }: NativeStackHeaderProps) {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>New Workouts</Text>
+
             <FlatList
                 data={data as Workout[]}
-                renderItem={WorkoutItem}
+                renderItem={({ item }) => {
+                    return (
+                        <Pressable onPress={() => navigation.navigate("WorkoutDetail", { slug: item.slug })}>
+                            < WorkoutItem item={item} />
+                        </Pressable>
+                    )
+                }}
                 keyExtractor={item => item.slug}
             />
-        </View>
+        </View >
     )
 }
 
